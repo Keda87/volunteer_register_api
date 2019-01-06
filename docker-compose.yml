@@ -1,0 +1,33 @@
+version: '3'
+services:
+  server:
+    restart: always
+    image: nginx
+    volumes:
+    - ./conf:/etc/nginx/conf.d
+    - ./src/static:/static
+    - ./src/media:/media
+    links:
+    - api:api
+    ports:
+    - "80:80"
+  api:
+    build: .
+    expose:
+    - "8000"
+    command: gunicorn src.main:app --bind 0.0.0.0:8000 --worker-class sanic.worker.GunicornWorker
+    depends_on:
+      - db
+    volumes:
+      - .:/sourcecode
+    env_file:
+      - .env
+  db:
+    image: postgres:9.6
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/pgdata
+    env_file:
+      - .env

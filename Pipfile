@@ -1,0 +1,15 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+sanic = "==18.12.0"
+gino = "==0.8.1"
+gunicorn = "==19.9.0"
+alembic = "==1.0.5"
+
+[dev-packages]
+
+[requires]
+python_version = "3.7"
